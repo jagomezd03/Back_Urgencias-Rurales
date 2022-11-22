@@ -3,9 +3,12 @@
 const firebase = require('../db');
 const Pacient = require('../models/Pacient');
 const firestore = firebase.firestore();
+const express = require('express');
+const router = express.Router();
 
 
-const addPacient = async (req, res, next) => {
+
+router.post('/', async (req, res, next) => {
     try {
         const data = req.body;
         await firestore.collection('pacients').doc().set(data);
@@ -13,9 +16,9 @@ const addPacient = async (req, res, next) => {
     } catch (error) {
         res.status(400).send(error.message);
     }
-}
+})
 
-const getAllPacients = async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
         const pacients = await firestore.collection('pacients');
         const data = await pacients.get();
@@ -45,9 +48,9 @@ const getAllPacients = async (req, res, next) => {
     } catch (error) {
         res.status(400).send(error.message);
     }
-}
+})
 
-const getPacient = async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
         const pacient = await firestore.collection('pacients').doc(id);
@@ -60,9 +63,9 @@ const getPacient = async (req, res, next) => {
     } catch (error) {
         res.status(400).send(error.message);
     }
-}
+})
 
-const updatePacient = async (req, res, next) => {
+router.patch('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
         const data = req.body;
@@ -72,22 +75,16 @@ const updatePacient = async (req, res, next) => {
     } catch (error) {
         res.status(400).send(error.message);
     }
-}
+})
 
-const deletePacient = async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
-        await firestore.collection('pacient').doc(id).delete();
+        await firestore.collection('pacients').doc(id).delete();
         res.send('Record deleted successfuly');
     } catch (error) {
         res.status(400).send(error.message);
     }
-}
+})
 
-module.exports = {
-    addPacient,
-    getAllPacients,
-    getPacient,
-    updatePacient,
-    deletePacient
-}
+module.exports = router;
