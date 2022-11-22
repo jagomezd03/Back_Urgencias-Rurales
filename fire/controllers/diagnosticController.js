@@ -1,7 +1,7 @@
 'use strict';
 
 const firebase = require('../db');
-const Pacient = require('../models/pacient');
+const Diagnostic = require('../models/diagnostic');
 const firestore = firebase.firestore();
 const express = require('express');
 const router = express.Router();
@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/', async (req, res, next) => {
     try {
         const data = req.body;
-        await firestore.collection('pacients').doc().set(data);
+        await firestore.collection('diagnostics').doc().set(data);
         res.send('Record saved successfuly');
     } catch (error) {
         res.status(400).send(error.message);
@@ -18,30 +18,22 @@ router.post('/', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
     try {
-        const pacients = await firestore.collection('pacients');
-        const data = await pacients.get();
-        const pacientsArray = [];
+        const diagnostics = await firestore.collection('diagnostics');
+        const data = await diagnostics.get();
+        const diagnosticsArray = [];
         if(data.empty) {
-            res.status(404).send('No pacient record found');
+            res.status(404).send('No doctor record found');
         }else {
             data.forEach(doc => {
-                const pacient = new Pacient(
+                const diagnostic = new Diagnostic(
                     doc.id,
-                    doc.data().name,
-                    doc.data().lastName,
-                    doc.data().birthdate,
-                    doc.data().cellphone,
-                    doc.data().city,
-                    doc.data().municipalty,
-                    doc.data().address,
-                    doc.data().rh,
-                    doc.data().height,
-                    doc.data().weight,
-                    doc.data().allergies
+                    doc.data().id_medic,
+                    doc.data().id_inc,
+                    doc.data().diagnostico
                 );
-                pacientsArray.push(pacient);
+                diagnosticsArray.push(diagnostic);
             });
-            res.send(pacientsArray);
+            res.send(diagnosticsArray);
         }
     } catch (error) {
         res.status(400).send(error.message);
@@ -51,10 +43,10 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
-        const pacient = await firestore.collection('pacients').doc(id);
-        const data = await pacient.get();
+        const diagnostic = await firestore.collection('diagnostics').doc(id);
+        const data = await diagnostic.get();
         if(!data.exists) {
-            res.status(404).send('Pacient with the given ID not found');
+            res.status(404).send('Diagnostic with the given ID not found');
         }else {
             res.send(data.data());
         }
@@ -67,9 +59,9 @@ router.patch('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
         const data = req.body;
-        const pacient =  await firestore.collection('pacients').doc(id);
-        await pacient.update(data);
-        res.send('Pacient record updated successfuly');        
+        const diagnostic =  await firestore.collection('diagnostics').doc(id);
+        await diagnostic.update(data);
+        res.send('Diagnostic record updated successfuly');        
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -78,7 +70,7 @@ router.patch('/:id', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
-        await firestore.collection('pacients').doc(id).delete();
+        await firestore.collection('diagnostics').doc(id).delete();
         res.send('Record deleted successfuly');
     } catch (error) {
         res.status(400).send(error.message);
