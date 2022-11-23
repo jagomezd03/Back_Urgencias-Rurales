@@ -1,6 +1,7 @@
 class Doctor {
-    constructor(id, name, lastname, birthdate, cellphone, city, municipality, address, rh, specialty, schedule){
+    constructor(id,cc, name, lastname, birthdate, cellphone, city, municipality, address, rh, specialty, schedule){
         this.id= id;
+        this.cc= cc;
         this.name = name;
         this.lastname= lastname;
         this.birthdate =birthdate;

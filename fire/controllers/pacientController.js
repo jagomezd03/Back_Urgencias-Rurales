@@ -32,7 +32,7 @@ router.get('/', async (req, res, next) => {
                     doc.data().birthdate,
                     doc.data().cellphone,
                     doc.data().city,
-                    doc.data().municipalty,
+                    doc.data().municipality,
                     doc.data().address,
                     doc.data().rh,
                     doc.data().height,

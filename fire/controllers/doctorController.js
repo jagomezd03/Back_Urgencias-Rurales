@@ -27,12 +27,13 @@ router.get('/', async (req, res, next) => {
             data.forEach(doc => {
                 const doctor = new Doctor(
                     doc.id,
+                    doc.data().cc,
                     doc.data().name,
                     doc.data().lastName,
                     doc.data().birthdate,
                     doc.data().cellphone,
                     doc.data().city,
-                    doc.data().municipalty,
+                    doc.data().municipality,
                     doc.data().address,
                     doc.data().rh,
                     doc.data().specialty,
