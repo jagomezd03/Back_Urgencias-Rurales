@@ -28,7 +28,7 @@ router.get('/', async (req, res, next) => {
                 const pacient = new Pacient(
                     doc.id,
                     doc.data().name,
-                    doc.data().lastName,
+                    doc.data().lastname,
                     doc.data().birthdate,
                     doc.data().cellphone,
                     doc.data().city,
