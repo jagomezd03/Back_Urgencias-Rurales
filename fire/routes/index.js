@@ -4,6 +4,7 @@ const doctorRouter = require('../controllers/doctorController');
 const companionRouter = require('../controllers/companionController');
 const diagnosticRouter = require('../controllers/diagnosticController');
 const consultationRouter = require('../controllers/consultationController');
+const medicineRouter = require('../controllers/medicineController');
 
 function routerApi(app) {
     const router = express.Router();
@@ -13,6 +14,7 @@ function routerApi(app) {
     router.use('/companions', companionRouter);
     router.use('/diagnostics', diagnosticRouter);
     router.use('/consultations', consultationRouter)
+    router.use('/medicines', medicineRouter)
 }
 
 module.exports = routerApi;
